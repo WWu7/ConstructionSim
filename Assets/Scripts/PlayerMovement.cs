@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,53 +9,39 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f * 2f;
     public float jumpHeight = 3f;
 
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
     private Vector3 velocity;
-    private bool isGrounded;
 
     void Update()
     {
-        // Check if grounded
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        bool isGrounded = controller.isGrounded;
 
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0f)
         {
             velocity.y = -2f;
         }
 
-        // Read WASD / arrow keys from new Input System
         float x = 0f;
         float z = 0f;
 
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-                x -= 1f;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) x -= 1f;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) x += 1f;
+            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) z -= 1f;
+            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) z += 1f;
 
-            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-                x += 1f;
-
-            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-                z -= 1f;
-
-            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-                z += 1f;
+            if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
         }
 
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move.normalized * speed * Time.deltaTime);
+        Vector3 move = (transform.right * x + transform.forward * z).normalized * speed;
 
-        // Jump
-        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        // Gravity
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+
+        Vector3 finalMove = move + Vector3.up * velocity.y;
+
+        controller.Move(finalMove * Time.deltaTime);
     }
 }
