@@ -11,8 +11,6 @@ public class InteractablePickup : MonoBehaviour
 
     private void Start()
     {
-        if (highlightObject != null)
-            highlightObject.SetActive(false);
     }
 
     private void Update()
