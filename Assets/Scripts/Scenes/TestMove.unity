@@ -1719,7 +1719,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1791,8 +1791,8 @@ Transform:
   m_GameObject: {fileID: 1074313754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -71.51, y: 1.62, z: 161.2}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: -1.67, y: 1.95, z: 5.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1809,9 +1809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b6b0993ddd740669121ccd8e61e08b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  interactKey: 101
+  itemName: Cube
   highlightObject: {fileID: 1074313754}
-  itemName: Key
 --- !u!1 &1087556954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,15 +2171,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5802426068318491468, guid: 61b37bda11df54264a9040fa258e646c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -68.31823
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5802426068318491468, guid: 61b37bda11df54264a9040fa258e646c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5802426068318491468, guid: 61b37bda11df54264a9040fa258e646c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 151.06349
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5802426068318491468, guid: 61b37bda11df54264a9040fa258e646c, type: 3}
       propertyPath: m_LocalRotation.w

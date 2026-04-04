@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractablePickup : MonoBehaviour
 {
-    public KeyCode interactKey = KeyCode.E;
-    public GameObject highlightObject;
     public string itemName = "Key";
+    public GameObject highlightObject;
 
     private bool playerInRange = false;
     private PlayerInventory playerInventory;
@@ -15,7 +15,7 @@ public class InteractablePickup : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(interactKey))
+        if (playerInRange && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             PickUp();
         }
@@ -23,38 +23,50 @@ public class InteractablePickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        PlayerInventory inv = other.GetComponentInParent<PlayerInventory>();
+
+        if (inv != null)
         {
             playerInRange = true;
-            playerInventory = other.GetComponent<PlayerInventory>();
+            playerInventory = inv;
 
             if (highlightObject != null)
                 highlightObject.SetActive(true);
+
+            Debug.Log("Player entered pickup range");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        PlayerInventory inv = other.GetComponentInParent<PlayerInventory>();
+
+        if (inv != null)
         {
             playerInRange = false;
             playerInventory = null;
 
             if (highlightObject != null)
                 highlightObject.SetActive(false);
+
+            Debug.Log("Player left pickup range");
         }
     }
 
     private void PickUp()
     {
-        if (playerInventory != null)
+        if (playerInventory == null)
         {
-            bool added = playerInventory.AddItem(itemName);
+            Debug.LogWarning("No player inventory found");
+            return;
+        }
 
-            if (added)
-            {
-                Destroy(gameObject);
-            }
+        bool added = playerInventory.AddItem(itemName);
+
+        if (added)
+        {
+            Debug.Log("Picked up " + itemName);
+            Destroy(gameObject);
         }
     }
 }
